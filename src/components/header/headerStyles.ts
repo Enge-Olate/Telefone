@@ -2,14 +2,13 @@ import styled from "styled-components";
 
 
 const Titulo = styled.h1`
+margin-top: 106px;
+color: #2F5883;
+text-align: center;
 font-size: 64px;
-color: #2f5883;
-font-weight: 100;
-font-family: 'Roboto-Flex';
-text-decoration: underline;
-&::first-letter{
-    font-weight: 600;
-}
+font-style: normal;
+font-weight: 300;
+line-height: normal;
 
 `
 

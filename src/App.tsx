@@ -1,14 +1,15 @@
-
-import { Header } from './components/header/Header';
-import * as s from './index'
+import { Route, Routes } from "react-router-dom";
+import RootGlobalStyle, * as s from "./index";
+import Home from "./components/pages/Home";
 function App() {
-
   return (
     <>
-    <s.Container>
-    <Header />
-
-    </s.Container>
+      <RootGlobalStyle />
+      <s.Container>
+        <Routes>
+          <Route path="/" element={<Home/>} />
+        </Routes>
+      </s.Container>
     </>
   );
 }
