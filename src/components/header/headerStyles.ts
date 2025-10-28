@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 
 const Titulo = styled.h1`
-margin-top: 106px;
 color: #2F5883;
 text-align: center;
 font-size: 64px;

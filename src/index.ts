@@ -15,6 +15,12 @@ background-color: #f4eff5;
 align-items: center;
 font-family: 'Roboto Flex', sans-serif;
 
+main{
+    width: 1142px;
+    height: 516px;
+    margin-top: 150px;
+    overflow-y: scroll;
+}
 `
 
 export default RootGlobalStyle
