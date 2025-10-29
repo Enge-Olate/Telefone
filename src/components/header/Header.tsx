@@ -1,4 +1,4 @@
-import Titulo from "./headerStyles";
+import Titulo from "./styles";
 
 export function Header(){
     return(
