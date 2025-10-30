@@ -1,14 +1,13 @@
 import styled from "styled-components";
 
 export const Section = styled.section`
-display: flex;
 width: 180px;
-justify-content: flex-end;
-align-items: center;
-margin-left: 962px;
-
+height: 54px;
+text-align: center;
+margin-top: 64px;
 
 img{
+    
     margin: 0 10px 0 0;
 }
 `

@@ -1,49 +1,75 @@
 import styled from "styled-components";
 
-export const ContainerList = styled.div`
-display: flex;
-width: 1142px;
-height: 144px;
-flex-direction: column;
-align-items: flex-start;
-gap: 42px;
-
-`
-
 export const SectionList = styled.section`
-display: flex;
-flex-direction: column;
-align-items: flex-start;
+  width: 1142px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
-h2{
-    margin-top: 19px;
-    margin-left: 26px;
-    margin-bottom: 20.5px;
-    font-size: 32px;
-    color: #9f89a4;
-}
-div{
-    width: 1142px;
-    height: 69px;
-    padding: 16px;
-    gap: 16px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    flex-shrink: 0;
-    background-color: #fcfcfc;
-    border-radius: 12px;
-}
-`
+export const LetterGroup = styled.div`
+  width: 100%;
+  margin-bottom: 20px;
+`;
+
+export const LetterHeader = styled.h2`
+  margin-top: 19px;
+  margin-left: 26px;
+  margin-bottom: 20.5px;
+  font-size: 32px;
+  color: #9f89a4;
+`;
+
+export const ContactListUL = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const ContactItemLI = styled.li``;
+
+export const ContactInfoContainer = styled.div`
+  width: 1050px;
+  height: 69px;
+  padding: 16px;
+  gap: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #fcfcfc;
+  border-radius: 12px;
+
+  p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+
+    &:nth-of-type(1) {
+      font-weight: bold;
+    }
+
+    &:nth-of-type(2),
+    &:nth-of-type(3) {
+      color: #666;
+      flex-grow: 1;
+    }
+  }
+`;
+
 export const Avatar = styled.p`
-width: 40px;
-height: 40px;
-display: flex;
-justify-content: center;
-align-items: center;
-background-color: #B9A7F8;
-color: #FAF8FF;
-border-radius: 50%;
-font-size: 20px;
-`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #b9a7f8;
+  color: #faf8ff;
+  border-radius: 50%;
+  font-size: 20px;
+  flex-shrink: 0;
+`;

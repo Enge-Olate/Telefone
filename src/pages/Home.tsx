@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import ContactsList from "../components/contactsList/ContactsList";
 import { Header } from "../components/header/Header";
-import { useEffect, useState } from "react";
 import type { Contact } from "../interfaces/Contact";
 import mockContacts from '../assets/contacts.json'
 import ActionsSection from "../components/actions/ActionsSection";
