@@ -3,6 +3,7 @@ import { Header } from "../components/header/Header";
 import { useEffect, useState } from "react";
 import type { Contact } from "../interfaces/Contact";
 import mockContacts from '../assets/contacts.json'
+import ActionSection from "../components/actions/ActionsSections";
 
 export default function Home(){
     const [contacts, setContacts] = useState<Contact[]>(mockContacts)
@@ -14,6 +15,7 @@ export default function Home(){
     return(
         <>
         <Header/>
+        <ActionSection/>
         <ContactsList contacts={contacts}/>
         </>
     )

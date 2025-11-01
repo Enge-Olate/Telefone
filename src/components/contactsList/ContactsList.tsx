@@ -1,29 +1,73 @@
+import { useEffect, useState } from "react";
 import type { Contact } from "../../interfaces/Contact";
-import { Avatar, ContainerList, SectionList } from "./styles";
+import {
+  Avatar,
+  GrupoContatos,
+  InfoContainer,
+  Letra,
+  SectionList,
+  UlContatos,
+} from "./styles";
+import { MdDelete } from "react-icons/md";
 interface Props {
   contacts: Contact[];
 }
+
+interface GruposDeContatos {
+  letra: string;
+  contacts: Contact[];
+}
 export default function ContactsList({ contacts }: Props) {
+  const [grupo, setGrupo] = useState<GruposDeContatos[]>([]);
+
+  useEffect(() => {
+    if (contacts && contacts.length > 0) {
+      const mapGrupos = new Map<string, Contact[]>();
+      contacts.forEach((contato) => {
+        const primeiraLetra = contato.name.charAt(0).toLocaleUpperCase();
+        if (!mapGrupos.has(primeiraLetra)) {
+          mapGrupos.set(primeiraLetra, []);
+        }
+        mapGrupos.get(primeiraLetra)?.push(contato);
+      });
+      console.log("sou o mapgrupo", mapGrupos);
+      const grupoOrdenado: GruposDeContatos[] = Array.from(mapGrupos.entries())
+        .map(([letra, contatosPorGrupo]) => ({
+          letra,
+          contacts: contatosPorGrupo.sort((a, b) =>
+            a.name.localeCompare(b.name)
+          ),
+        }))
+        .sort((a, b) => a.letra.localeCompare(b.letra));
+      console.log("já eu sou...", grupoOrdenado);
+      setGrupo(grupoOrdenado);
+    } else {
+      setGrupo([]);
+    }
+  }, [contacts]);
+
   return (
     <main>
-      <ContainerList>
-        <SectionList>
-          <ul>
-            {contacts.map((contact) => (
-              <li key={contact.id}>
-                <h2>A</h2>
-                <div>
-                  <Avatar>A</Avatar>
-                  <p>{contact.name}</p>
-                  <p>{contact.phone}</p>
-                  <p>{contact.email}</p>
-
-                </div>
-              </li>
-            ))}
-          </ul>
-        </SectionList>
-      </ContainerList>
+      <SectionList>
+        {grupo.map((grupo) => (
+          <GrupoContatos key={grupo.letra}>
+            <Letra>{grupo.letra}</Letra>
+            <UlContatos>
+              {grupo.contacts.map((contato) => (
+                <li key={contato.id}>
+                  <InfoContainer>
+                    <Avatar>{grupo.letra}</Avatar>
+                    <span>{contato.name}</span>
+                    <span>{contato.phone}</span>
+                    <span>{contato.email}</span>
+                    <MdDelete color="#2F5883"/>
+                  </InfoContainer>
+                </li>
+              ))}
+            </UlContatos>
+          </GrupoContatos>
+        ))}
+      </SectionList>
     </main>
   );
 }

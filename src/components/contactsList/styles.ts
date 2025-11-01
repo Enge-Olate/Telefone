@@ -1,41 +1,66 @@
 import styled from "styled-components";
 
-export const ContainerList = styled.div`
-display: flex;
-width: 1142px;
-height: 144px;
-flex-direction: column;
-align-items: flex-start;
-gap: 42px;
-
-`
 
 export const SectionList = styled.section`
 display: flex;
 flex-direction: column;
-align-items: flex-start;
+align-items: center;
 
-h2{
+
+
+`
+export const GrupoContatos = styled.div`
+    width: 100%;
+    margin-bottom: 20px;
+    
+`
+
+export const UlContatos = styled.ul`
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 10px;
+`
+export const InfoContainer = styled.div`
+ width: 1050px;
+  height: 69px;
+  padding: 16px;
+  gap: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #fcfcfc;
+  border-radius: 12px;
+
+  span {
+    margin: 0;
+    font-size: 16px;
+    color: #111111;
+    flex-grow: 1;
+
+    &:nth-of-type(1) {
+        font-weight: 500;
+    }
+
+    &:nth-of-type(2),
+    &:nth-of-type(3) {
+      color: #666;
+    }
+  }
+`
+
+export const Letra = styled.h1`
     margin-top: 19px;
     margin-left: 26px;
     margin-bottom: 20.5px;
     font-size: 32px;
     color: #9f89a4;
-}
-div{
-    width: 1142px;
-    height: 69px;
-    padding: 16px;
-    gap: 16px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    flex-shrink: 0;
-    background-color: #fcfcfc;
-    border-radius: 12px;
-}
+
 `
+
+
+
 export const Avatar = styled.p`
 width: 40px;
 height: 40px;
