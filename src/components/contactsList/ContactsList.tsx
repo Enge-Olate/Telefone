@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Contact } from "../../interfaces/Contact";
-
+import { useDispatch } from "react-redux";
 import {
   Avatar,
   GrupoContatos,
@@ -10,6 +10,7 @@ import {
   UlContatos,
 } from "./styles";
 import { MdDelete } from "react-icons/md";
+import { deletar } from "../../store/reducers/deleteContact";
 interface Props {
   contacts: Contact[];
 }
@@ -21,7 +22,10 @@ interface GruposDeContatos {
 }
 export default function ContactsList({ contacts }: Props) {
   const [grupo, setGrupo] = useState<GruposDeContatos[]>([]);
-
+  const dispatch = useDispatch();
+  const deletaContato = (id: string)=>{
+      dispatch(deletar(id))
+  }
   useEffect(() => {
     if (contacts && contacts.length > 0) {
       const mapGrupos = new Map<string, Contact[]>();
@@ -63,7 +67,7 @@ export default function ContactsList({ contacts }: Props) {
                     <span>{contato.name}</span>
                     <span>{contato.phone}</span>
                     <span>{contato.email}</span>
-                    <MdDelete color="#2F5883"/>
+                    <MdDelete onClick={()=> deletaContato(contato.id)} color="#2F5883" cursor={'pointer'}/>
                   </InfoContainer>
                 </li>
               ))}

@@ -1,23 +1,24 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ContactsList from "../components/contactsList/ContactsList";
 import { Header } from "../components/header/Header";
-import type { Contact } from "../interfaces/Contact";
 import mockContacts from '../assets/contacts.json'
 import ActionSection from "../components/actions/ActionsSections";
+import type { RootState } from "../store";
+import { setaContatos } from "../store/reducers/deleteContact";
 
 export default function Home(){
-    const [contacts, setContacts] = useState<Contact[]>(mockContacts)
+    const dispatch = useDispatch();
+    const {itens} = useSelector((state: RootState)=> state.deletar)
     useEffect(()=>{
-        fetch('src/assets/contacts.json')
-            .then(res => res.json())
-            .then(data => setContacts(data))
-    }, [])
+        dispatch(setaContatos(mockContacts))
+    }, [dispatch])
     return(
         <>
         <Header/>
 
         <ActionSection/>
-        <ContactsList contacts={contacts}/>
+        <ContactsList contacts={itens}/>
         </>
     )
 }
