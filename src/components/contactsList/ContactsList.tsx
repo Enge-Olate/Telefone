@@ -1,81 +1,74 @@
+import { useEffect, useState } from "react";
 import type { Contact } from "../../interfaces/Contact";
-// O mockContacts não é necessário aqui, pois os dados vêm via props
+
 import {
   Avatar,
+  GrupoContatos,
+  InfoContainer,
+  Letra,
   SectionList,
-  LetterGroup,
-  LetterHeader,
-  ContactListUL,
-  ContactItemLI,
-  ContactInfoContainer
+  UlContatos,
 } from "./styles";
-import { useEffect, useState } from "react";
-
-// Define um tipo para um grupo de contatos sob uma letra específica
-interface ContactGroup {
-  letter: string;
-  contacts: Contact[];
-}
-
+import { MdDelete } from "react-icons/md";
 interface Props {
   contacts: Contact[];
 }
 
+
+interface GruposDeContatos {
+  letra: string;
+  contacts: Contact[];
+}
 export default function ContactsList({ contacts }: Props) {
-  // Estado para armazenar os contatos agrupados pela primeira letra do nome
-  const [groupedContacts, setGroupedContacts] = useState<ContactGroup[]>([]);
+  const [grupo, setGrupo] = useState<GruposDeContatos[]>([]);
 
   useEffect(() => {
-    // Este efeito será executado sempre que a prop 'contacts' mudar
     if (contacts && contacts.length > 0) {
-      // Cria um mapa para armazenar temporariamente os contatos pela primeira letra
-      const groupsMap = new Map<string, Contact[]>();
-
-      contacts.forEach(contact => {
-        const firstLetter = contact.name.charAt(0).toUpperCase();
-        if (!groupsMap.has(firstLetter)) {
-          groupsMap.set(firstLetter, []);
+      const mapGrupos = new Map<string, Contact[]>();
+      contacts.forEach((contato) => {
+        const primeiraLetra = contato.name.charAt(0).toLocaleUpperCase();
+        if (!mapGrupos.has(primeiraLetra)) {
+          mapGrupos.set(primeiraLetra, []);
         }
-        groupsMap.get(firstLetter)?.push(contact);
+        mapGrupos.get(primeiraLetra)?.push(contato);
       });
-
-      // Converte o mapa para um array de objetos ContactGroup
-      // Ordena os grupos por letra alfabeticamente e os contatos dentro de cada grupo
-      const sortedGroups: ContactGroup[] = Array.from(groupsMap.entries())
-        .map(([letter, contactsInGroup]) => ({
-          letter,
-          contacts: contactsInGroup.sort((a, b) => a.name.localeCompare(b.name)) // Ordena contatos dentro de cada grupo
+      console.log("sou o mapgrupo", mapGrupos);
+      const grupoOrdenado: GruposDeContatos[] = Array.from(mapGrupos.entries())
+        .map(([letra, contatosPorGrupo]) => ({
+          letra,
+          contacts: contatosPorGrupo.sort((a, b) =>
+            a.name.localeCompare(b.name)
+          ),
         }))
-        .sort((a, b) => a.letter.localeCompare(b.letter)); // Ordena os grupos por letra
-
-      setGroupedContacts(sortedGroups);
+        .sort((a, b) => a.letra.localeCompare(b.letra));
+      console.log("já eu sou...", grupoOrdenado);
+      setGrupo(grupoOrdenado);
     } else {
-      setGroupedContacts([]); // Limpa se não houver contatos
+      setGrupo([]);
     }
-  }, [contacts]); // Array de dependências: re-executa o efeito se a prop 'contacts' mudar
+  }, [contacts]);
 
   return (
     <main>
       <SectionList>
-        {groupedContacts.map((group) => (
-          <LetterGroup key={group.letter}>
-            <LetterHeader>{group.letter}</LetterHeader>
-            <ContactListUL>
-              {group.contacts.map((contact) => {
-                const firstLetter = contact.name.charAt(0).toUpperCase(); // Extrai a primeira letra para o Avatar
-                return (
-                  <ContactItemLI key={contact.id}>
-                    <ContactInfoContainer>
-                      <Avatar>{firstLetter}</Avatar>
-                      <p>{contact.name}</p>
-                      <p>{contact.phone}</p>
-                      <p>{contact.email}</p>
-                    </ContactInfoContainer>
-                  </ContactItemLI>
-                );
-              })}
-            </ContactListUL>
-          </LetterGroup>
+
+        {grupo.map((grupo) => (
+          <GrupoContatos key={grupo.letra}>
+            <Letra>{grupo.letra}</Letra>
+            <UlContatos>
+              {grupo.contacts.map((contato) => (
+                <li key={contato.id}>
+                  <InfoContainer>
+                    <Avatar>{grupo.letra}</Avatar>
+                    <span>{contato.name}</span>
+                    <span>{contato.phone}</span>
+                    <span>{contato.email}</span>
+                    <MdDelete color="#2F5883"/>
+                  </InfoContainer>
+                </li>
+              ))}
+            </UlContatos>
+          </GrupoContatos>
         ))}
       </SectionList>
     </main>
