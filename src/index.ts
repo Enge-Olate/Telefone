@@ -25,6 +25,7 @@ background-color: #f4eff5;
 font-family: 'Roboto Flex', sans-serif;
 header{
     width: 100%;
+
 }
 
 main{

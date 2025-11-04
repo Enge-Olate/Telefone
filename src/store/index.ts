@@ -1,10 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import deletarReducer from "./reducers/deleteContact";
-import setaContatosReducer from "./reducers/setaContatos";
+import contactReducer from "./reducers/contactSlice";
 export const store = configureStore({
     reducer:{
-        deletar: deletarReducer,
-        setContacts: setaContatosReducer
+        contatos: contactReducer,
                       
     }
 })

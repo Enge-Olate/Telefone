@@ -7,7 +7,7 @@ interface Contatos{
 const initialState : Contatos = {itens: []}
 console.log('sou o initialState',initialState)
 const deleteSlice = createSlice({
-    name: 'deletar',
+    name: 'contatos',
     initialState,
     reducers:{
         deletar:(state, action: PayloadAction<string>) =>{
@@ -15,9 +15,12 @@ const deleteSlice = createSlice({
         },
         setaContatos:(state, action: PayloadAction<Contact[]>)=>{
             state.itens = action.payload;
+        },
+        addContacts: (state, action: PayloadAction<Contact>)=>{
+            state.itens.push(action.payload)
         }
     }
 })
 
-export const {deletar, setaContatos} = deleteSlice.actions
+export const {deletar, setaContatos, addContacts} = deleteSlice.actions
 export default deleteSlice.reducer

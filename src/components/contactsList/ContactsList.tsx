@@ -10,7 +10,7 @@ import {
   UlContatos,
 } from "./styles";
 import { MdDelete } from "react-icons/md";
-import { deletar } from "../../store/reducers/deleteContact";
+import { deletar } from "../../store/reducers/contactSlice";
 interface Props {
   contacts: Contact[];
 }
@@ -67,7 +67,7 @@ export default function ContactsList({ contacts }: Props) {
                     <span>{contato.name}</span>
                     <span>{contato.phone}</span>
                     <span>{contato.email}</span>
-                    <MdDelete onClick={()=> deletaContato(contato.id)} color="#2F5883" cursor={'pointer'}/>
+                    <MdDelete onClick={()=> deletaContato(contato.id)} color="#2F5883" cursor={'pointer'} title="Remover contato"/>
                   </InfoContainer>
                 </li>
               ))}
