@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import RootGlobalStyle, * as s from "./index";
+import RootGlobalStyle, * as s from "./globalStyles";
 import Home from "./pages/Home";
 import { ContactForm } from "./pages/ContactForm";
 function App() {

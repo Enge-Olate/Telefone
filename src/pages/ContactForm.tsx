@@ -16,7 +16,7 @@ export function ContactForm() {
 
   return (
     <>
-      <Header titulo="Adicione contatos"/>
+      <Header/>
       <FormContacts onAdd={handleAdd} />
     </>
   );
