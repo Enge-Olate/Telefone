@@ -34,15 +34,14 @@ export const StyledButton = styled.button`
   margin: 10px;
   border: none;
   border-radius: 4px;
-  font-size: 12px;
-  font-weight: 100;
+  font-size: 16px;
   cursor: pointer;
+  color: #fcfcfc;
   transition: all 0.2s ease;
 `;
 
 export const ButtonSubmit = styled(StyledButton)`
 background-color: #2f5883;
-color: #fcfcfc;
 &:hover{
   position: relative;
   left: 2.5px;
@@ -51,7 +50,6 @@ color: #fcfcfc;
 `
 export const ButtonCancel = styled(StyledButton)`
 background-color: #992b2b98;
-color: #fcfcfc;
 &:hover{
   position: relative;
   right: 2.5px;

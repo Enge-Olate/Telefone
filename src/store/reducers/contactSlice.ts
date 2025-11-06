@@ -1,10 +1,10 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Contact } from "../../interfaces/Contact";
 interface Contatos{
-    itens: Contact[]
+    items: Contact[]
 }
 
-const initialState : Contatos = {itens: [
+const initialState : Contatos = {items: [
   {
     "id": "1",
     "name": "Ana Silva",
@@ -50,16 +50,22 @@ const deleteSlice = createSlice({
     initialState,
     reducers:{
         deletar:(state, action: PayloadAction<string>) =>{
-            state.itens = state.itens.filter((contato)=> contato.id !== action.payload)
+            state.items = state.items.filter((contato)=> contato.id !== action.payload)
         },
         setaContatos:(state, action: PayloadAction<Contact[]>)=>{
-            state.itens = action.payload;
+            state.items = action.payload;
         },
         addContacts: (state, action: PayloadAction<Contact>)=>{
-            state.itens.push(action.payload)
+            state.items.push(action.payload)
+        },
+        editar: (state, action: PayloadAction<Contact>)=>{
+            const index = state.items.findIndex(i=> i.id === action.payload.id);
+            if(index !== -1){
+              state.items[index] = action.payload;
+            }
         }
     }
 })
 
-export const {deletar, setaContatos, addContacts} = deleteSlice.actions
+export const {deletar, setaContatos, addContacts, editar} = deleteSlice.actions
 export default deleteSlice.reducer

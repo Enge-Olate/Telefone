@@ -1,7 +1,6 @@
-import {useMemo } from "react";
-import { MdDelete } from "react-icons/md";
-import type { Contact } from "../../interfaces/Contact";
 import { useDispatch } from "react-redux";
+import React, { useMemo, useState } from "react";
+import { MdDelete, MdEdit, MdSave } from "react-icons/md";
 import {
   Avatar,
   GrupoContatos,
@@ -10,7 +9,8 @@ import {
   SectionList,
   UlContatos,
 } from "./styles";
-import { deletar } from "../../store/reducers/contactSlice";
+import { deletar, editar } from "../../store/reducers/contactSlice";
+import type { Contact } from "../../interfaces/Contact";
 interface Props {
   contacts: Contact[];
 }
@@ -20,14 +20,39 @@ interface GruposDeContatos {
   contacts: Contact[];
 }
 export default function ContactsList({ contacts }: Props) {
-  // const [grupo, setGrupo] = useState<GruposDeContatos[]>([]);
   const dispatch = useDispatch();
+  const [editMode, setEditMode] = useState<string | null>(null);
+  const [editandoContato, setEditandoContato] = useState<Contact | null>(null);
+
+  const handleEditClick = (contact: Contact) => {
+    setEditMode(contact.id);
+    setEditandoContato(contact);
+  };
+
+  const handleSaveClick = (id: string) => {
+    if (editandoContato) {
+      dispatch(editar(editandoContato));
+      setEditMode(null);
+      setEditandoContato(null);
+    }
+    return id;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (editandoContato) {
+      setEditandoContato({
+        ...editandoContato,
+        [e.target.name]: e.target.value,
+      });
+    }
+  };
+
   const deletaContato = (id: string, name: string) => {
     if (window.confirm(`Tem certeza que deseja remover ${name}`)) {
       dispatch(deletar(id));
     }
   };
-  
+
   const grupo = useMemo(() => {
     if (!contacts) {
       return [];
@@ -51,7 +76,6 @@ export default function ContactsList({ contacts }: Props) {
     return grupoOrdenado;
   }, [contacts]);
 
-  
   return (
     <main>
       <SectionList>
@@ -63,15 +87,54 @@ export default function ContactsList({ contacts }: Props) {
                 <li key={contato.id}>
                   <InfoContainer>
                     <Avatar>{grupo.letra}</Avatar>
-                    <span>{contato.name}</span>
-                    <span>{contato.phone}</span>
-                    <span>{contato.email}</span>
-                    <MdDelete
-                      onClick={() => deletaContato(contato.id, contato.name)}
-                      color="#2F5883"
-                      cursor={"pointer"}
-                      title="Remover contato"
-                    />
+                    {editMode === contato.id ? (
+                      <>
+                        <input
+                          name="name"
+                          value={editandoContato?.name || ""}
+                          onChange={handleChange}
+                        />
+                        <input
+                          name="phone"
+                          value={editandoContato?.phone || ""}
+                          onChange={handleChange}
+                        />
+                        <input
+                          name="email"
+                          value={editandoContato?.email || ""}
+                          onChange={handleChange}
+                        />
+                        <MdSave
+                          size={20}
+                          color="#2F5883"
+                          cursor={"pointer"}
+                          title="Salvar edição"
+                          onClick={() => handleSaveClick(contato.id)}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <span>{contato.name}</span>
+                        <span>{contato.phone}</span>
+                        <span>{contato.email}</span>
+                        <MdEdit
+                          size={20}
+                          color="#2F5883"
+                          cursor={"pointer"}
+                          title="Editar contato"
+                          onClick={() => handleEditClick(contato)}
+                        />
+                        <MdDelete
+                          onClick={() =>
+                            deletaContato(contato.id, contato.name)
+                          }
+                          size={20}
+                          color="#2F5883"
+                          cursor={"pointer"}
+                          title="Remover contato"
+                        />
+                      </>
+                    )}
                   </InfoContainer>
                 </li>
               ))}

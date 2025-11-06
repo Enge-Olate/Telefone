@@ -34,6 +34,17 @@ export const InfoContainer = styled.div`
   background-color: #fcfcfc;
   border-radius: 12px;
 
+  input{
+    /* width: 100%; */
+    border: none;
+    font-size: 16px;
+    color: #111111;
+    &:focus{
+      border-bottom: 1px solid #666;
+      outline: none;
+      color: #666;
+    }
+  }
   span {
     margin: 0;
     font-size: 16px;

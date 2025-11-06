@@ -5,13 +5,13 @@ import ActionSection from "../components/actions/ActionsSections";
 import type { RootState } from "../store";
 
 export default function Home() {
-  const { itens } = useSelector((state: RootState) => state.contatos);
+  const { items } = useSelector((state: RootState) => state.contatos);
   
   return (
     <>
       <Header />
       <ActionSection />
-      <ContactsList contacts={itens} />
+      <ContactsList contacts={items} />
     </>
   );
 }
