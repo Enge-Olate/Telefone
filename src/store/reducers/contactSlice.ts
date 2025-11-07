@@ -44,7 +44,6 @@ const initialState : Contatos = {items: [
 
 ]
 }
-console.log('sou o initialState',initialState)
 const deleteSlice = createSlice({
     name: 'contatos',
     initialState,
