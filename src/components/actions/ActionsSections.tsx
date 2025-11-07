@@ -2,7 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { IconButton, Section } from "./styles";
 import { FaPlus, FaSearch } from "react-icons/fa";
 
-export default function ActionSection() {
+interface Props{
+  onSearchClick: ()=> void;
+}
+
+export default function ActionSection({onSearchClick}:Props) {
 
   const navigate = useNavigate();
   return (
@@ -10,7 +14,7 @@ export default function ActionSection() {
       <IconButton onClick={()=> navigate('/add')} title="Adicionar contato">
         <FaPlus/>
       </IconButton>
-      <IconButton title="Pesquisar contato">
+      <IconButton onClick={onSearchClick} title="Pesquisar contato">
         <FaSearch/>
       </IconButton>
     </Section>

@@ -7,6 +7,7 @@ padding: 15px;
 display: flex;
 gap: 20px;
 justify-content: flex-end;
+
 `
 
 export const IconButton = styled.button`

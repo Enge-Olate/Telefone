@@ -63,7 +63,7 @@ const deleteSlice = createSlice({
             if(index !== -1){
               state.items[index] = action.payload;
             }
-        }
+        },
     }
 })
 
