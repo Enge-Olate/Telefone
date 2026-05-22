@@ -2,14 +2,16 @@ import styled from 'styled-components';
 
 
 
-const Form = styled.form`
+export const Form = styled.form`
     padding: 8px;
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
     border: 1px solid #2F5883;
     border-radius: 8px;
-
+    label{
+      color: #2F5883;
+    }
     input{
         width: 250px;
         padding: 4px;
@@ -55,4 +57,3 @@ background-color: #992b2b98;
   right: 2.5px;
 }
 `
-export default Form;

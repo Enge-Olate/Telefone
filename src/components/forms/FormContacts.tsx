@@ -1,7 +1,8 @@
 import { useState } from "react";
-import type { Contact } from "../../interfaces/Contact";
-import Form, { ButtonCancel, ButtonGroup, ButtonSubmit } from "./styles";
 import { useNavigate } from "react-router-dom";
+import { IMaskInput } from "react-imask";
+import type { Contact } from "../../interfaces/Contact";
+import { ButtonCancel, ButtonGroup, ButtonSubmit,Form } from "./styles";
 
 interface Props {
   onAdd: (contact: Contact) => void;
@@ -37,21 +38,21 @@ export default function FormContacts({ onAdd }: Props) {
         type="text"
         placeholder="Nome"
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(e)=> setName(e.target.value)}
         required
       />
-      <input
-        type="tel"
+      <IMaskInput
+        mask="(00) 00000-0000"
         placeholder="Telefone"
         value={phone}
-        onChange={(e) => setPhone(e.target.value)}
+        onAccept={(value)=> setPhone(value)}
         required
       />
       <input
         type="email"
         placeholder="E-mail"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e)=> setEmail(e.target.value)}
         required
       />
       <ButtonGroup>
