@@ -9,6 +9,11 @@ font-style: normal;
 font-weight: 300;
 line-height: normal;
 
+@media(max-width:768px){
+    font-size: 32px;
+
+}
+
 `
 
 

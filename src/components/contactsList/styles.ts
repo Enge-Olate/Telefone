@@ -6,14 +6,18 @@ export const SectionList = styled.section`
 display: flex;
 flex-direction: column;
 align-items: center;
-
-
-
 `
 export const GrupoContatos = styled.div`
-    width: 100%;
-    margin-bottom: 20px;
-    
+padding: 16px;
+width: 100%;
+margin-bottom: 20px;
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+@media(max-width: 768px){
+  width: 100%;
+  margin-bottom: 10px;
+}    
 `
 
 export const UlContatos = styled.ul`
@@ -21,53 +25,75 @@ display: flex;
 flex-direction: column;
 align-items: center;
 gap: 10px;
+@media(max-width: 768px){
+  width: 100%;
+  li{
+    width: 100%;
+  }
+}
 `
 export const InfoContainer = styled.div`
- width: 1050px;
-  height: 69px;
-  padding: 16px;
-  gap: 16px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: #fcfcfc;
-  border-radius: 12px;
+width: 1050px;
+height: 69px;
+padding: 16px;
+gap: 16px;
+display: flex;
+flex-direction: row;
+justify-content: flex-start;
+align-items: center;
+background-color: #fcfcfc;
+border-radius: 12px;
 
+input{
+  /* width: 100%; */
+  border: none;
+  font-size: 16px;
+  color: #111111;
+  &:focus{
+    border-bottom: 1px solid #666;
+    outline: none;
+    color: #666;
+  }
+}
+span {
+  margin: 0;
+  font-size: 16px;
+  color: #111111;
+  flex-grow: 1;
+
+  &:nth-of-type(1) {
+      font-weight: 500;
+  }
+
+  &:nth-of-type(2),
+  &:nth-of-type(3) {
+    color: #666;
+  }
+}
+@media(max-width: 768px){
+  width: 100%;
+  padding: 8px;
+  height: 60px;
+  gap: 4px;
+  span{
+    font-size: 10px;
+  }
   input{
-    /* width: 100%; */
-    border: none;
-    font-size: 16px;
-    color: #111111;
-    &:focus{
-      border-bottom: 1px solid #666;
-      outline: none;
-      color: #666;
-    }
+    font-size: 12px;
   }
-  span {
-    margin: 0;
-    font-size: 16px;
-    color: #111111;
-    flex-grow: 1;
-
-    &:nth-of-type(1) {
-        font-weight: 500;
-    }
-
-    &:nth-of-type(2),
-    &:nth-of-type(3) {
-      color: #666;
-    }
-  }
+}
 `
 
 export const Letra = styled.h1`
-    margin-top: 19px;
-    margin-left: 26px;
-    margin-bottom: 20.5px;
-    font-size: 32px;
-    color: #9f89a4;
+margin: 20px;
+font-size: 32px;
+color: #9f89a4;
+@media(max-width: 768px){
+  width:auto;
+  margin:10px;
+  font-size: 16px;      
+
+}
 
 `
 
@@ -85,4 +111,9 @@ export const Avatar = styled.p`
   border-radius: 50%;
   font-size: 20px;
   flex-shrink: 0;
+  @media(max-width: 768px){
+    width: 30px;
+    height:30px;
+    font-size: 15px;
+  }
 `;

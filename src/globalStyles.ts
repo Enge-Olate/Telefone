@@ -35,6 +35,19 @@ main{
     overflow-y: scroll;
     overflow-x: hidden;
 }
+// Media query para smartphone
+@media(max-width: 768px){
+    width: 100%;
+    height: auto;
+    padding: 16px;
+    justify-content: flex-start;
+    align-items: stretch;
+    main{
+        height: auto;
+        margin-top: 12px;
+        overflow-y: visible;
+    }
+}
 `
 
 export default RootGlobalStyle
