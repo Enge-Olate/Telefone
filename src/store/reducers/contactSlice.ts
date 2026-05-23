@@ -1,70 +1,88 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Contact } from "../../interfaces/Contact";
-interface Contatos{
-    items: Contact[]
-}
+interface Contatos {
+  items: Contact[],
+  loading: boolean,
+  error: string | null,
+};
 
-const initialState : Contatos = {items: [
-  {
-    "id": "1",
-    "name": "Ana Silva",
-    "phone": "(11) 99999-1234",
-    "email": "ana.silva@email.com"
-  },
-  {
-    "id": "2",
-    "name": "Carlos Souza",
-    "phone": "(21) 98888-5678",
-    "email": "carlos.souza@email.com"
-  },
-  {
-    "id": "3",
-    "name": "Fernanda Lima",
-    "phone": "(31) 97777-9012",
-    "email": "sjjsl.lima@email.com"
-  },
-  {
-    "id": "4",
-    "name": "Fabiula Cortez",
-    "phone": "(31) 97777-9053",
-    "email": "jsjs.lima@email.com"
-  },
-  {
-    "id": "5",
-    "name": "Fabio Peru",
-    "phone": "(31) 97777-3456",
-    "email": "gfa.lima@email.com"
-  },
-  {
-    "id": "6",
-    "name": "Fernando Lima",
-    "phone": "(31) 97777-1934",
-    "email": "fer.lima@email.com"
+const initialState: Contatos = {
+  items: [],
+  loading: false,
+  error: null
+};
+
+export const fetchContact = createAsyncThunk(
+  "contatos/fetchContacts",
+  async () => {
+    const res = await fetch("http://localhost:3000/contacts");
+    return (await res.json() as Contact[]);
   }
+);
+export const createContact = createAsyncThunk(
+  "contatos/createContact",
+  async (contact: Contact) => {
+    const res = await fetch("http://localhost:3000/contacts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "appication/json"
+      },
+      body: JSON.stringify(contact)
+    });
+    return (await res.json() as Contact)
+  });
 
-]
-}
-const deleteSlice = createSlice({
-    name: 'contatos',
-    initialState,
-    reducers:{
-        deletar:(state, action: PayloadAction<string>) =>{
-            state.items = state.items.filter((contato)=> contato.id !== action.payload)
-        },
-        setaContatos:(state, action: PayloadAction<Contact[]>)=>{
-            state.items = action.payload;
-        },
-        addContacts: (state, action: PayloadAction<Contact>)=>{
-            state.items.push(action.payload)
-        },
-        editar: (state, action: PayloadAction<Contact>)=>{
-            const index = state.items.findIndex(i=> i.id === action.payload.id);
-            if(index !== -1){
-              state.items[index] = action.payload;
-            }
-        },
-    }
-})
+export const deleteContact = createAsyncThunk(
+  "contatos/deleteContact",
+  async (id: string) => {
+    await fetch(`http://localhost/3000/contacts/{id}`, {
+      method: "DELETE"
+    });
+    return id;
+  }
+);
 
-export const {deletar, setaContatos, addContacts, editar} = deleteSlice.actions
-export default deleteSlice.reducer
+
+export const updateContact = createAsyncThunk(
+  "contatos/updateContact",
+  async (contact: Contact) => {
+    const res = await fetch(`http://localhost/contacts/${contact.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(contact)
+    });
+    return (await res.json() as Contact);
+  }
+);
+const contactSlice = createSlice({
+  name: 'contatos',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchContact.pending, (state)=>{
+      state.loading = true;
+    });
+    builder.addCase(fetchContact.fulfilled, (state, action: PayloadAction<Contact[]>)=>{
+      state.items = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(fetchContact.rejected, (state)=>{
+      state.loading = false;
+      state.error = "Erro ao carregar contatos";
+    });
+    builder.addCase(createContact.fulfilled, (state, action)=>{
+        state.items.push(action.payload);
+    });
+    builder.addCase(deleteContact.fulfilled, (state, action)=>{
+      state.items = state.items.filter(c => c.id !== action.payload);
+    });
+    builder.addCase(updateContact.fulfilled,(state, action)=>{
+      const index = state.items.findIndex(c => c.id === action.payload.id);
+      if(index !== -1){
+        state.items[index] = action.payload;
+      }
+    });
+  }
+});
+
+export default contactSlice.reducer;

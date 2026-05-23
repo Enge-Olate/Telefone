@@ -3,14 +3,15 @@ import type { Contact } from "../interfaces/Contact";
 import { Header } from "../components/header/Header";
 import FormContacts from "../components/forms/FormContacts";
 import { useDispatch } from "react-redux";
-import { addContacts } from "../store/reducers/contactSlice";
+import { createContact } from "../store/reducers/contactSlice";
+import type{ AppDispatch } from "../store";
 
 export function ContactForm() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleAdd = (contact: Contact) => {
-    dispatch(addContacts(contact));
+    dispatch(createContact(contact));
     navigate("/");
   };
 

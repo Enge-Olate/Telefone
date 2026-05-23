@@ -9,8 +9,9 @@ import {
   SectionList,
   UlContatos,
 } from "./styles";
-import { deletar, editar } from "../../store/reducers/contactSlice";
 import type { Contact } from "../../interfaces/Contact";
+import type{ AppDispatch } from "../../store";
+import { deleteContact, updateContact } from "../../store/reducers/contactSlice";
 interface Props {
   contacts: Contact[];
 }
@@ -20,7 +21,7 @@ interface GruposDeContatos {
   contacts: Contact[];
 }
 export default function ContactsList({ contacts }: Props) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [editMode, setEditMode] = useState<string | null>(null);
   const [editandoContato, setEditandoContato] = useState<Contact | null>(null);
 
@@ -31,7 +32,7 @@ export default function ContactsList({ contacts }: Props) {
 
   const handleSaveClick = (id: string) => {
     if (editandoContato) {
-      dispatch(editar(editandoContato));
+      dispatch(updateContact(editandoContato));
       setEditMode(null);
       setEditandoContato(null);
     }
@@ -49,7 +50,7 @@ export default function ContactsList({ contacts }: Props) {
 
   const deletaContato = (id: string, name: string) => {
     if (window.confirm(`Tem certeza que deseja remover ${name}`)) {
-      dispatch(deletar(id));
+      dispatch(deleteContact(id));
     }
   };
 
