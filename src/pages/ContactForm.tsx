@@ -10,10 +10,16 @@ export function ContactForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleAdd = (contact: Contact) => {
-    dispatch(createContact(contact));
-    navigate("/");
-  };
+  
+  const handleAdd = async(contact: Contact)=>{
+    try{
+      await dispatch(createContact(contact)).unwrap();
+      navigate("/");
+    }catch(error){
+      console.error(error);
+      alert("Erro ao criar contato!");
+    }
+  }
 
   return (
     <>

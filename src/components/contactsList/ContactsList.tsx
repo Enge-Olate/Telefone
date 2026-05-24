@@ -26,18 +26,35 @@ export default function ContactsList({ contacts }: Props) {
   const [editandoContato, setEditandoContato] = useState<Contact | null>(null);
 
   const handleEditClick = (contact: Contact) => {
-    setEditMode(contact.id);
-    setEditandoContato(contact);
+    if(!contact.id){
+      console.warn("Contato sem ID");
+      return;
+    }
+    setEditMode(contact.id as string);
+    setEditandoContato({...contact});
   };
 
-  const handleSaveClick = (id: string) => {
-    if (editandoContato) {
-      dispatch(updateContact(editandoContato));
-      setEditMode(null);
-      setEditandoContato(null);
+  // const handleSaveClick = (id: string) => {
+  //   if (editandoContato) {
+  //     dispatch(updateContact(editandoContato));
+  //     setEditMode(null);
+  //     setEditandoContato(null);
+  //   }
+  //   return id;
+  // };
+
+  const handleSaveClick = async()=>{
+    try {
+      if(editandoContato){
+        await dispatch(updateContact(editandoContato)).unwrap();
+        setEditMode(null);
+        setEditandoContato(null);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Não foi possível atualizar o contato");
     }
-    return id;
-  };
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (editandoContato) {
@@ -48,9 +65,20 @@ export default function ContactsList({ contacts }: Props) {
     }
   };
 
-  const deletaContato = (id: string, name: string) => {
-    if (window.confirm(`Tem certeza que deseja remover ${name}`)) {
-      dispatch(deleteContact(id));
+  // const deletaContato = (id: string, name: string) => {
+  //   if (window.confirm(`Tem certeza que deseja remover ${name}`)) {
+  //     dispatch(deleteContact(id));
+  //   }
+  // };
+
+  const deletaContato = async(id: string, name: string)=>{
+    if(window.confirm(`Remover ${name}`)){
+      try {
+        await dispatch(deleteContact(id)).unwrap();
+      } catch (error) {
+        console.error(error);
+        alert("Erro ao deletar o contato!");
+      }
     }
   };
 
@@ -110,7 +138,7 @@ export default function ContactsList({ contacts }: Props) {
                           color="#2F5883"
                           cursor={"pointer"}
                           title="Salvar edição"
-                          onClick={() => handleSaveClick(contato.id)}
+                          onClick={() => handleSaveClick()}
                         />
                       </>
                     ) : (
@@ -127,7 +155,7 @@ export default function ContactsList({ contacts }: Props) {
                         />
                         <MdDelete
                           onClick={() =>
-                            deletaContato(contato.id, contato.name)
+                            deletaContato(contato.id as string, contato.name)
                           }
                           size={20}
                           color="#2F5883"

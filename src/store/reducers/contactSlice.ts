@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Contact } from "../../interfaces/Contact";
+import { api } from "../../sercives/api";
+
 interface Contatos {
   items: Contact[],
   loading: boolean,
@@ -12,73 +14,59 @@ const initialState: Contatos = {
   error: null
 };
 
-export const fetchContact = createAsyncThunk(
-  "contatos/fetchContacts",
+export const fetchContacts = createAsyncThunk(
+  "contacts/fetch",
   async () => {
-    const res = await fetch("http://localhost:3000/contacts");
-    return (await res.json() as Contact[]);
+    return await api.getContacts();
   }
 );
 export const createContact = createAsyncThunk(
-  "contatos/createContact",
+  "contacts/create",
   async (contact: Contact) => {
-    const res = await fetch("http://localhost:3000/contacts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "appication/json"
-      },
-      body: JSON.stringify(contact)
-    });
-    return (await res.json() as Contact)
+
+    return await api.createContact(contact);
   });
 
 export const deleteContact = createAsyncThunk(
-  "contatos/deleteContact",
+  "contacts/delete",
   async (id: string) => {
-    await fetch(`http://localhost/3000/contacts/{id}`, {
-      method: "DELETE"
-    });
+    await api.deleteContact(id);
     return id;
-  }
-);
+  });
 
 
 export const updateContact = createAsyncThunk(
-  "contatos/updateContact",
+  "contacts/update",
   async (contact: Contact) => {
-    const res = await fetch(`http://localhost/contacts/${contact.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(contact)
-    });
-    return (await res.json() as Contact);
-  }
-);
+
+    return await api.updateContact(contact);
+  });
+
 const contactSlice = createSlice({
-  name: 'contatos',
+  name: 'contacts',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchContact.pending, (state)=>{
+    builder.addCase(fetchContacts.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(fetchContact.fulfilled, (state, action: PayloadAction<Contact[]>)=>{
+    builder.addCase(fetchContacts.fulfilled, (state, action: PayloadAction<Contact[]>) => {
       state.items = action.payload;
       state.loading = false;
     });
-    builder.addCase(fetchContact.rejected, (state)=>{
+    builder.addCase(fetchContacts.rejected, (state) => {
       state.loading = false;
       state.error = "Erro ao carregar contatos";
     });
-    builder.addCase(createContact.fulfilled, (state, action)=>{
-        state.items.push(action.payload);
+    builder.addCase(createContact.fulfilled, (state, action) => {
+      state.items.push(action.payload);
     });
-    builder.addCase(deleteContact.fulfilled, (state, action)=>{
+    builder.addCase(deleteContact.fulfilled, (state, action) => {
       state.items = state.items.filter(c => c.id !== action.payload);
     });
-    builder.addCase(updateContact.fulfilled,(state, action)=>{
+    builder.addCase(updateContact.fulfilled, (state, action) => {
       const index = state.items.findIndex(c => c.id === action.payload.id);
-      if(index !== -1){
+      if (index !== -1) {
         state.items[index] = action.payload;
       }
     });

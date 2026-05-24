@@ -1,4 +1,4 @@
-const API_URL: string = "http;//localhost:3000";
+const API_URL: string = "http://localhost:3000";
 
 export const api ={
     getContacts: async ()=>{
@@ -15,7 +15,7 @@ export const api ={
         });
         return res.json()
     },
-    deleteContact: async(id: string)=>{
+    deleteContact: async(id: any)=>{
         await fetch(`${API_URL}/contacts/${id}`,{
             method: "DELETE"
         });
