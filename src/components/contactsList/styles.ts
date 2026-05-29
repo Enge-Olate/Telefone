@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-
-
 export const SectionList = styled.section`
 display: flex;
 flex-direction: column;
@@ -15,16 +13,21 @@ display: flex;
 flex-direction: column;
 align-items: flex-start;
 @media(max-width: 768px){
-  width: 100%;
+  padding: 8px;
   margin-bottom: 10px;
 }    
 `
 
 export const UlContatos = styled.ul`
+padding: 0;
+width: 100%;
 display: flex;
 flex-direction: column;
 align-items: center;
 gap: 10px;
+li{
+  width: 100%;
+}
 @media(max-width: 768px){
   width: 100%;
   li{
@@ -33,19 +36,18 @@ gap: 10px;
 }
 `
 export const InfoContainer = styled.div`
-width: 1050px;
-height: 69px;
 padding: 16px;
+width: 100%;
+max-width: 1050px;
+min-height: 69px;
 gap: 16px;
 display: flex;
-flex-direction: row;
 justify-content: flex-start;
 align-items: center;
 background-color: #fcfcfc;
 border-radius: 12px;
-
+cursor: pointer;
 input{
-  /* width: 100%; */
   border: none;
   font-size: 16px;
   color: #111111;
@@ -55,52 +57,84 @@ input{
     color: #666;
   }
 }
-span {
+/* span {
   margin: 0;
   font-size: 16px;
   color: #111111;
   flex-grow: 1;
-
-  &:nth-of-type(1) {
-      font-weight: 500;
-  }
-
-  &:nth-of-type(2),
-  &:nth-of-type(3) {
-    color: #666;
-  }
+} */
+.name{
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
+.phone, .email{
+  color: #666;
+}
+.actions{
+  display: flex;
+  gap: 12px;
+}
+.extra{
+  display: flex;
+  flex: 1;
+  gap:16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
 @media(max-width: 768px){
-  width: 100%;
-  padding: 8px;
-  height: 60px;
-  gap: 4px;
-  span{
-    font-size: 10px;
-  }
+  padding: 12px;
+  height: auto;
+  min-height: 60px;
+  gap: 8px;
+  flex-wrap: wrap;
   input{
-    font-size: 12px;
+    padding: 8px 0;
+    width:100%;
+    border-bottom: 1px solid #eee;
+  }  
+  .name{
+    font-size: 14px;
+    flex:1;
   }
+  .extra{
+    margin-top: 4px;
+    padding-top: 12px;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap:12px;
+    border-top: 1px solid #eaeaea;
+  }
+  &.expanded{
+    .extra{
+      display: flex;
+    }
+  }
+  .actions{
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: 8px;
+  }
+
 }
 `
 
 export const Letra = styled.h1`
-margin: 20px;
+margin: 20px 0;
 font-size: 32px;
 color: #9f89a4;
 @media(max-width: 768px){
   width:auto;
-  margin:10px;
-  font-size: 16px;      
+  margin:10px 0;
+  font-size: 20px;      
 
 }
-
 `
-
-
-
-
-export const Avatar = styled.p`
+export const Avatar = styled.div`
   width: 40px;
   height: 40px;
   display: flex;
@@ -113,7 +147,7 @@ export const Avatar = styled.p`
   flex-shrink: 0;
   @media(max-width: 768px){
     width: 30px;
-    height:30px;
-    font-size: 15px;
+    height:36px;
+    font-size: 16px;
   }
 `;

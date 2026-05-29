@@ -19,7 +19,6 @@ export default function FormContacts({ onAdd }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // ✅ validação simples
     if (!name.trim()) return alert("Nome obrigatório");
     if (!phone.trim()) return alert("Telefone obrigatório");
     if (!email.includes("@")) return alert("Email inválido");

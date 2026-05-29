@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import React, { useMemo, useState } from "react";
-import { MdDelete, MdEdit, MdSave } from "react-icons/md";
+import { MdDelete, MdEdit, MdSave, MdCancel } from "react-icons/md";
 import {
   Avatar,
   GrupoContatos,
@@ -10,8 +10,11 @@ import {
   UlContatos,
 } from "./styles";
 import type { Contact } from "../../interfaces/Contact";
-import type{ AppDispatch } from "../../store";
-import { deleteContact, updateContact } from "../../store/reducers/contactSlice";
+import type { AppDispatch } from "../../store";
+import {
+  deleteContact,
+  updateContact,
+} from "../../store/reducers/contactSlice";
 interface Props {
   contacts: Contact[];
 }
@@ -24,28 +27,23 @@ export default function ContactsList({ contacts }: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const [editMode, setEditMode] = useState<string | null>(null);
   const [editandoContato, setEditandoContato] = useState<Contact | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const toogledExpand = (id: string) => {
+    setExpandedId((prev) => (prev === id ? null : id));
+  };
 
   const handleEditClick = (contact: Contact) => {
-    if(!contact.id){
+    if (!contact.id) {
       console.warn("Contato sem ID");
       return;
     }
     setEditMode(contact.id as string);
-    setEditandoContato({...contact});
+    setEditandoContato({ ...contact });
   };
 
-  // const handleSaveClick = (id: string) => {
-  //   if (editandoContato) {
-  //     dispatch(updateContact(editandoContato));
-  //     setEditMode(null);
-  //     setEditandoContato(null);
-  //   }
-  //   return id;
-  // };
-
-  const handleSaveClick = async()=>{
+  const handleSaveClick = async () => {
     try {
-      if(editandoContato){
+      if (editandoContato) {
         await dispatch(updateContact(editandoContato)).unwrap();
         setEditMode(null);
         setEditandoContato(null);
@@ -54,7 +52,13 @@ export default function ContactsList({ contacts }: Props) {
       console.error(error);
       alert("Não foi possível atualizar o contato");
     }
-  }
+  };
+
+  const handleCancelEdit = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setEditandoContato(null);
+    setEditMode(null);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (editandoContato) {
@@ -65,14 +69,8 @@ export default function ContactsList({ contacts }: Props) {
     }
   };
 
-  // const deletaContato = (id: string, name: string) => {
-  //   if (window.confirm(`Tem certeza que deseja remover ${name}`)) {
-  //     dispatch(deleteContact(id));
-  //   }
-  // };
-
-  const deletaContato = async(id: string, name: string)=>{
-    if(window.confirm(`Remover ${name}`)){
+  const deletaContato = async (id: string, name: string) => {
+    if (window.confirm(`Remover ${name}`)) {
       try {
         await dispatch(deleteContact(id)).unwrap();
       } catch (error) {
@@ -94,14 +92,12 @@ export default function ContactsList({ contacts }: Props) {
       }
       mapGrupos.get(primeiraLetra)?.push(contato);
     });
-    console.log("sou o mapgrupo", mapGrupos);
     const grupoOrdenado: GruposDeContatos[] = Array.from(mapGrupos.entries())
       .map(([letra, contatosPorGrupo]) => ({
         letra,
         contacts: contatosPorGrupo.sort((a, b) => a.name.localeCompare(b.name)),
       }))
       .sort((a, b) => a.letra.localeCompare(b.letra));
-    console.log("já eu sou...", grupoOrdenado);
     return grupoOrdenado;
   }, [contacts]);
 
@@ -114,7 +110,10 @@ export default function ContactsList({ contacts }: Props) {
             <UlContatos>
               {grupo.contacts.map((contato) => (
                 <li key={contato.id}>
-                  <InfoContainer>
+                  <InfoContainer
+                    onClick={() => toogledExpand(contato.id as string)}
+                    className={expandedId === contato.id ? "expanded" : ""}
+                  >
                     <Avatar>{grupo.letra}</Avatar>
                     {editMode === contato.id ? (
                       <>
@@ -133,35 +132,54 @@ export default function ContactsList({ contacts }: Props) {
                           value={editandoContato?.email || ""}
                           onChange={handleChange}
                         />
-                        <MdSave
-                          size={20}
-                          color="#2F5883"
-                          cursor={"pointer"}
-                          title="Salvar edição"
-                          onClick={() => handleSaveClick()}
-                        />
+                        <div className="actions" onClick={(e)=> e.stopPropagation()}>
+                          <MdSave
+                            size={20}
+                            color="#2F5883"
+                            cursor={"pointer"}
+                            title="Salvar edição"
+                            onClick={() => handleSaveClick()}
+                          />
+                          <MdCancel
+                            size={20}
+                            color="#2F5883"
+                            cursor={"pointer"}
+                            title="Cancelar edição"
+                            onClick={(e) => handleCancelEdit(e)}
+                          />
+                        </div>
                       </>
                     ) : (
                       <>
-                        <span>{contato.name}</span>
-                        <span>{contato.phone}</span>
-                        <span>{contato.email}</span>
-                        <MdEdit
-                          size={20}
-                          color="#2F5883"
-                          cursor={"pointer"}
-                          title="Editar contato"
-                          onClick={() => handleEditClick(contato)}
-                        />
-                        <MdDelete
-                          onClick={() =>
-                            deletaContato(contato.id as string, contato.name)
-                          }
-                          size={20}
-                          color="#2F5883"
-                          cursor={"pointer"}
-                          title="Remover contato"
-                        />
+                        <span className="name">{contato.name}</span>
+                        <div className="extra">
+                          <span className="phone">{contato.phone}</span>
+                          <span className="email">{contato.email}</span>
+                          <div
+                            className="actions"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <MdEdit
+                              size={20}
+                              color="#2F5883"
+                              cursor={"pointer"}
+                              title="Editar contato"
+                              onClick={() => handleEditClick(contato)}
+                            />
+                            <MdDelete
+                              onClick={() =>
+                                deletaContato(
+                                  contato.id as string,
+                                  contato.name,
+                                )
+                              }
+                              size={20}
+                              color="#2F5883"
+                              cursor={"pointer"}
+                              title="Remover contato"
+                            />
+                          </div>
+                        </div>
                       </>
                     )}
                   </InfoContainer>
