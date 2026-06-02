@@ -21,14 +21,14 @@ export const Form = styled.form`
         font-weight: 500;
         font-size: 15px;
     }
+  @media(max-width: 768px){
+    align-items: center;
+  }  
 
-
-`;
+`
 export const ButtonGroup = styled.div`
 display: flex;
 justify-content: space-around;
-
-
 `
 export const StyledButton = styled.button`
   width: 90px;
@@ -40,7 +40,7 @@ export const StyledButton = styled.button`
   cursor: pointer;
   color: #fcfcfc;
   transition: all 0.2s ease;
-`;
+`
 
 export const ButtonSubmit = styled(StyledButton)`
 background-color: #2f5883;
